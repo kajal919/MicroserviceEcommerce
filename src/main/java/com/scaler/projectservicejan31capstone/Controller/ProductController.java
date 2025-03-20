@@ -55,12 +55,5 @@ public class ProductController {
         return productResponseDTO;
     }
 
-    @ExceptionHandler(NullPointerException.class)
-    public ErrorDTO handleNullPointerException(){
-        ErrorDTO errorDTO = new ErrorDTO();
-        errorDTO.setStatus("Failure");
-        errorDTO.setMessage("Null Pointer Exception Occured");
-        return errorDTO;
 
-    }
 }
