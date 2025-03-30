@@ -5,6 +5,7 @@ import com.scaler.projectservicejan31capstone.DTO.ErrorDTO;
 import com.scaler.projectservicejan31capstone.DTO.ProductResponseDTO;
 import com.scaler.projectservicejan31capstone.Exceptions.ProductNotFoundException;
 import com.scaler.projectservicejan31capstone.Services.FakeStoreProductService;
+import com.scaler.projectservicejan31capstone.Services.ProductService;
 import com.scaler.projectservicejan31capstone.models.Product;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,11 @@ import java.util.List;
 
 @RestController
 public class ProductController {
-    FakeStoreProductService productService;
-    public ProductController(FakeStoreProductService fakeStoreProductService) {
-        this.productService = fakeStoreProductService;
+    ProductService productService;
+    public ProductController(ProductService productService) {
+
+        this.productService = productService;
+
     }
 
     @GetMapping("/products/{id}")
