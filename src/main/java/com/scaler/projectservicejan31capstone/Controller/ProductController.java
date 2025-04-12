@@ -7,6 +7,7 @@ import com.scaler.projectservicejan31capstone.Exceptions.ProductNotFoundExceptio
 import com.scaler.projectservicejan31capstone.Services.FakeStoreProductService;
 import com.scaler.projectservicejan31capstone.Services.ProductService;
 import com.scaler.projectservicejan31capstone.models.Product;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,20 +19,21 @@ import java.util.List;
 @RestController
 public class ProductController {
     ProductService productService;
-    public ProductController(ProductService productService) {
+    public ProductController(@Qualifier("productDBService")
+                             ProductService productService) {
 
         this.productService = productService;
 
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable long id) throws ProductNotFoundException {
+    public ProductResponseDTO getProductById(@PathVariable long id) throws ProductNotFoundException {
         Product product = productService.getProductById(id);
 
         ProductResponseDTO productResponseDTO = ProductResponseDTO.from(product);
         ResponseEntity<ProductResponseDTO> responseEntity =
                 new ResponseEntity<>(productResponseDTO, HttpStatus.OK);
-        return responseEntity;
+        return productResponseDTO;
     }
     @GetMapping("/products")
     public List<ProductResponseDTO> getAllProducts() {
