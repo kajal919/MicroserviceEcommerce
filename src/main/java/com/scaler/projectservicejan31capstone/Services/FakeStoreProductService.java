@@ -16,7 +16,7 @@ public class FakeStoreProductService implements ProductService {
 
     RestTemplate restTemplate;
     public FakeStoreProductService(RestTemplate restTemplate) {
-        this.restTemplate = new RestTemplate();
+        this.restTemplate = restTemplate;
     }
     @Override
     public Product getProductById(long id) throws ProductNotFoundException {
