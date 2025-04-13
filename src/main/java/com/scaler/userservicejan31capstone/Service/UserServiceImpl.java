@@ -1,6 +1,5 @@
 package com.scaler.userservicejan31capstone.Service;
 
-import com.scaler.userservicejan31capstone.DTO.LogoutResponseDTO;
 import com.scaler.userservicejan31capstone.Repositories.TokenRepository;
 import com.scaler.userservicejan31capstone.Repositories.UserRepository;
 import com.scaler.userservicejan31capstone.models.Token;
@@ -65,19 +64,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String logout(String tokenValue) {
+    public void logout(String tokenValue) {
         Optional<Token> optionalToken = tokenRepository.findByValue(tokenValue);
-        LogoutResponseDTO response = null;
+
         if (optionalToken.isPresent()) {
             Token token = optionalToken.get();
             token.setDeleted(true);
             token.setExpiresAt(Calendar.getInstance().getTime());
             tokenRepository.save(token);
-
-            response.setMessage("Logout successful");
         }
-
-        return response.getMessage();
     }
 
     @Override

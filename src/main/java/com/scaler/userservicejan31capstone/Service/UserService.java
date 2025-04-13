@@ -6,7 +6,7 @@ import com.scaler.userservicejan31capstone.models.User;
 public interface UserService {
     User signUp(String name, String email, String password);
     Token login(String email, String password);
-    String logout(String tokenValue);
+    void logout(String tokenValue);
     User validateToken(String tokenValue);
 
 

@@ -33,7 +33,7 @@ public class UserController {
         return loginResponseDTO;
     }
 
-    @PostMapping("/logout")
+    @PostMapping("user/logout")
     public LogoutResponseDTO logout(@RequestBody LogoutRequestDTO logoutRequestDTO){
 
         userService.logout(logoutRequestDTO.getToken());

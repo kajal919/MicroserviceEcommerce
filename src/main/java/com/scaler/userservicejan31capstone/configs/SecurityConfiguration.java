@@ -15,7 +15,8 @@ public class SecurityConfiguration {
                                 requests
                                         .anyRequest().permitAll()
                                         .and().cors().disable()
-                                        .csrf().disable();
+                                        .csrf().disable()
+                                       ;
                             } catch (Exception e) {
                                 throw new RuntimeException(e);
                             }
