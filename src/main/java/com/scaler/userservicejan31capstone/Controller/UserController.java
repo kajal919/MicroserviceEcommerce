@@ -4,6 +4,7 @@ import com.scaler.userservicejan31capstone.DTO.*;
 import com.scaler.userservicejan31capstone.Service.UserService;
 import com.scaler.userservicejan31capstone.models.Token;
 import com.scaler.userservicejan31capstone.models.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,12 +34,26 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(LogoutRequestDTO logoutRequestDTO){
-        return null;
+    public LogoutResponseDTO logout(@RequestBody LogoutRequestDTO logoutRequestDTO){
+
+        userService.logout(logoutRequestDTO.getToken());
+        LogoutResponseDTO response = new LogoutResponseDTO("Logout successful");
+        return response;
     }
 
     @GetMapping("/validate/{token}")
     public ResponseEntity<Boolean> validateToken(@PathVariable("token") String token){
-        return null;
+        User user = userService.validateToken(token);
+        ResponseEntity<Boolean> responseEntity;
+        if(user == null) {
+            responseEntity = new ResponseEntity<Boolean>(false, HttpStatus.UNAUTHORIZED);
+
+        }
+        else {
+            responseEntity = new ResponseEntity<>(true, HttpStatus.OK);
+
+        }
+        return responseEntity;
+
     }
 }

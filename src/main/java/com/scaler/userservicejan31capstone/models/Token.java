@@ -14,6 +14,7 @@ import java.util.Date;
 public class Token extends Base {
     private String value;
     private Date expiresAt;
+    private boolean deleted = false;
 
     @ManyToOne
     private User user;
