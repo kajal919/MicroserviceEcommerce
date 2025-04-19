@@ -2,6 +2,8 @@ package com.scaler.projectservicejan31capstone.Repositories;
 
 import com.scaler.projectservicejan31capstone.models.Category;
 import com.scaler.projectservicejan31capstone.models.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,5 +28,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "Select * from Product where category_id in (Select category_id from category where name= :categoryName)", nativeQuery = true)
     List<Product> getProductsByCategoryNamesNative(@Param("CategoryName") String CategoryName);
 
+    Page<Product> findByNameContaining(String query, Pageable pageable);
     
 }
