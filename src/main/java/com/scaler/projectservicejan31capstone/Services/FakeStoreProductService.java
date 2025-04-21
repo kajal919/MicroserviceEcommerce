@@ -5,28 +5,42 @@ import com.scaler.projectservicejan31capstone.DTO.FakeStoreProductsDTO;
 import com.scaler.projectservicejan31capstone.DTO.ProductResponseDTO;
 import com.scaler.projectservicejan31capstone.Exceptions.ProductNotFoundException;
 import com.scaler.projectservicejan31capstone.models.Product;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("fakeStoreProductService")
 public class FakeStoreProductService implements ProductService {
 
     RestTemplate restTemplate;
-    public FakeStoreProductService(RestTemplate restTemplate) {
+    RedisTemplate<String, Object> redisTemplate;
+
+    public FakeStoreProductService(RestTemplate restTemplate, RedisTemplate<String, Object> redisTemplate) {
+
         this.restTemplate = restTemplate;
+        this.redisTemplate = redisTemplate;
+
     }
     @Override
     public Product getProductById(long id) throws ProductNotFoundException {
+
+        Product productFromCache = (Product)redisTemplate.opsForValue().get(String.valueOf(id));
+
+        if(productFromCache != null) {
+            return productFromCache;
+        }
         FakeStoreProductsDTO fakeStoreProductsDTO = restTemplate.getForObject(
                 "https://fakestoreapi.com/products/" + id,
                 FakeStoreProductsDTO.class);
         if(fakeStoreProductsDTO == null) {
             throw new ProductNotFoundException("Product does not exist for id:"+ id);
         }
-        return fakeStoreProductsDTO.toProduct();
+        Product productFromFakeStore = fakeStoreProductsDTO.toProduct();
+        redisTemplate.opsForValue().set(String.valueOf(id), productFromFakeStore);
+        return productFromFakeStore;
 
     }
 

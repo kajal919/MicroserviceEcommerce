@@ -3,8 +3,10 @@ package com.scaler.projectservicejan31capstone.models;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 
+import java.io.Serializable;
+
 @Entity
-public class Product extends BaseModel {
+public class Product extends BaseModel implements Serializable {
 
     private String description;
     private String imageURL;
